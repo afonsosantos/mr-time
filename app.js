@@ -55,7 +55,8 @@ const ajuda = new Discord.RichEmbed()
   .setDescription('Lista de comandos disponíveis')
   .setThumbnail('https://media.discordapp.net/attachments/512212787716554764/638693611491426341/0f7d55e9dfcbbd436074545b17aff479.png')
   .addField(`**${prefix}hora**`, 'Mostra a hora atual')
-  .addField(`**${prefix}temp**`, 'Mostra a temperatura e meteorologia atual')
+  .addField(`**${prefix}temp**`, 'Mostra a temperatura atual')
+  .addField(`**${prefix}meteo**`, 'Mostra a meteorologia atual')
   .addField(`**${prefix}defmeteo**`, 'Define uma temperatura e meteorologia (args: <temp> <meteorologia>)')
   .addField(`**${prefix}ajuda**`, 'Mostra esta mensagem')
   .setTimestamp()
@@ -74,6 +75,8 @@ client.on('message', message => {
     message.channel.send(`Hora Atual: **${hora}**`);
   } else if (message.content.startsWith(prefix + 'temp')) {
     message.channel.send(`Temperatura: **${temperatura} ºC**`);
+  } else if (message.content.startsWith(prefix + 'meteo')) {
+    message.channel.send(`Meteorologia: **${meteorologia}**`);
   } else if (command == 'defmeteo') {
     // Verifica se a mensagem tem os argumentos necessários
     if (!args.length) {
