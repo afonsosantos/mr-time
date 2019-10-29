@@ -56,7 +56,7 @@ const ajuda = new Discord.RichEmbed()
   .setThumbnail('https://media.discordapp.net/attachments/512212787716554764/638693611491426341/0f7d55e9dfcbbd436074545b17aff479.png')
   .addField(`**${prefix}hora**`, 'Mostra a hora atual')
   .addField(`**${prefix}temp**`, 'Mostra a temperatura e meteorologia atual')
-  .addField(`**${prefix}deftemp**`, 'Define uma temperatura e meteorologia (args: <temp> <meteorologia>)')
+  .addField(`**${prefix}defmeteo**`, 'Define uma temperatura e meteorologia (args: <temp> <meteorologia>)')
   .addField(`**${prefix}ajuda**`, 'Mostra esta mensagem')
   .setTimestamp()
   .setFooter('Bot por Afonso Santos', 'https://i.imgur.com/1LHooWF.png');
@@ -74,14 +74,14 @@ client.on('message', message => {
     message.channel.send(`Hora Atual: **${hora}**`);
   } else if (message.content.startsWith(prefix + 'temp')) {
     message.channel.send(`Temperatura: **${temperatura} ºC**`);
-  } else if (command == 'deftemp') {
+  } else if (command == 'defmeteo') {
     // Verifica se a mensagem tem os argumentos necessários
     if (!args.length) {
       return message.channel.send(`Tem de especificar qual a temperatura e a meteorologia para definir ${message.author}!`);
     }
     temperatura = args[0];
     meteorologia = args[1];
-    message.channel.send(`Temperatura definida para **${temperatura} ºC** e ${meteorologia}`);
+    message.channel.send(`Temperatura definida para **${temperatura} ºC** e **${meteorologia}** como meteorologia.`);
   } else if (message.content.startsWith(prefix + 'ajuda')) {
     message.channel.send(ajuda);
   }
