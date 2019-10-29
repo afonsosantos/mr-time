@@ -1,0 +1,20 @@
+{
+  "name": "relogioparadise_bot_discord",
+  "version": "0.0.1",
+  "description": "Bot para informação da hora e temperatura num servidor RP Discord",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "serve": "node app.js"
+  },
+  "author": "Afonso Santos",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
