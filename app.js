@@ -12,7 +12,7 @@ const Discord = require('discord.js');
 var moment = require('moment');
 moment.locale('pt');
 require('dotenv').config();
-var hora, temperatura, meteorologia;
+var hora, temperatura = 0, meteorologia;
 
 /*
  * Initialização de objetos e variáveis
