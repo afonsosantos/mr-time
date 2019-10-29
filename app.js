@@ -36,12 +36,21 @@ function atualizarHora() {
   hora = moment()
     .subtract(process.env.DIF_HORAS, 'hour')
     .format('LT');
-  client.user.setActivity('Hora: ' + hora);
+  client.user.setActivity(`Hora: ${hora}`);
   // console.log(hora);
 }
 
+function mostrarMeteo() {
+  client.user.setActivity(`Temperatura: ${temperatura} (${meteorologia})`);
+}
+
+function atualizarEstado() {
+  atualizarHora();
+  mostrarMeteo();
+}
+
 // Hora e Custom Presence
-setInterval(atualizarHora, process.env.INTERVAL_UPDATE_HORA);
+setInterval(atualizarEstado, process.env.INTERVAL_UPDATE_HORA);
 
 /*
  * Embeds
