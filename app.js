@@ -40,17 +40,8 @@ function atualizarHora() {
   // console.log(hora);
 }
 
-function mostrarMeteo() {
-  client.user.setActivity(`Temperatura: ${temperatura} (${meteorologia})`);
-}
-
-function atualizarEstado() {
-  atualizarHora();
-  mostrarMeteo();
-}
-
 // Hora e Custom Presence
-setInterval(atualizarEstado, process.env.INTERVAL_UPDATE_HORA);
+setInterval(atualizarHora, process.env.INTERVAL_UPDATE_HORA);
 
 /*
  * Embeds
