@@ -45,18 +45,18 @@ setInterval(atualizarHora, 5000);
  * Embeds
  */
 const ajuda = new Discord.RichEmbed()
-  .setColor('#0099ff') // verificar cor
+  .setColor('#77185e')
   .setTitle('Lista de Comandos')
   .setAuthor(
     'RelogioParadise',
     'https://media.discordapp.net/attachments/512212787716554764/638693611491426341/0f7d55e9dfcbbd436074545b17aff479.png',
     'https://github.com/afonsosantos'
-  ) // logo do bot
+  )
   .setDescription('Lista de comandos disponíveis')
-  .setThumbnail('https://media.discordapp.net/attachments/512212787716554764/638693611491426341/0f7d55e9dfcbbd436074545b17aff479.png') // logo do bot
+  .setThumbnail('https://media.discordapp.net/attachments/512212787716554764/638693611491426341/0f7d55e9dfcbbd436074545b17aff479.png')
   .addField(`**${prefix}hora**`, 'Mostra a hora atual')
-  .addField(`**${prefix}temp**`, 'Mostra a temperatura atual')
-  .addField(`**${prefix}deftemp**`, 'Define uma temperatura (args: <temp>)')
+  .addField(`**${prefix}temp**`, 'Mostra a temperatura e meteorologia atual')
+  .addField(`**${prefix}deftemp**`, 'Define uma temperatura e meteorologia (args: <temp> <meteorologia>)')
   .addField(`**${prefix}ajuda**`, 'Mostra esta mensagem')
   .setTimestamp()
   .setFooter('Bot por Afonso Santos', 'https://i.imgur.com/1LHooWF.png');
