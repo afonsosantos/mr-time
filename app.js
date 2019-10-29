@@ -85,6 +85,9 @@ client.on('message', message => {
     message.channel.send(`Temperatura definida para **${temperatura} ºC** e **${meteorologia}** como meteorologia.`);
   } else if (message.content.startsWith(prefix + 'ajuda')) {
     message.channel.send(ajuda);
+  } else {
+    // Opção padrão
+    message.channel.send(`${message.author}, esse comando não existe. **${prefix}ajuda** para uma lista de comandos`);
   }
 });
 
