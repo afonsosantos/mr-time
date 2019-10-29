@@ -49,13 +49,9 @@ setInterval(atualizarHora, process.env.INTERVAL_UPDATE_HORA);
 const ajuda = new Discord.RichEmbed()
   .setColor('#77185e')
   .setTitle('Lista de Comandos')
-  .setAuthor(
-    'RelogioParadise',
-    'https://media.discordapp.net/attachments/512212787716554764/638693611491426341/0f7d55e9dfcbbd436074545b17aff479.png',
-    'https://github.com/afonsosantos'
-  )
+  .setAuthor('RelogioParadise', 'https://i.imgur.com/w2w9jkx.png', 'https://github.com/afonsosantos')
   .setDescription('Lista de comandos disponíveis')
-  .setThumbnail('https://media.discordapp.net/attachments/512212787716554764/638693611491426341/0f7d55e9dfcbbd436074545b17aff479.png')
+  .setThumbnail('https://i.imgur.com/w2w9jkx.png')
   .addField(`**${prefix}hora**`, 'Mostra a hora atual')
   .addField(`**${prefix}temp**`, 'Mostra a temperatura atual')
   .addField(`**${prefix}meteo**`, 'Mostra a meteorologia atual')
