@@ -12,6 +12,8 @@ const Discord = require('discord.js');
 var moment = require('moment');
 moment.locale('pt');
 require('dotenv').config();
+
+// Variáveis
 var hora,
   temperatura = 0,
   meteorologia;
@@ -40,8 +42,23 @@ function atualizarHora() {
   // console.log(hora);
 }
 
+function enviarMensagem() {
+  const mensagemAuto = new Discord.RichEmbed()
+    .setColor('#77185e')
+    .setTitle('Informações Gerais')
+    .setAuthor('Mr. Time', 'https://i.imgur.com/3ZDiLHR.png', 'https://github.com/afonsosantos')
+    .setThumbnail('https://i.imgur.com/2r3EbTF.png')
+    .addField('Hora', `São ${hora}`, true)
+    .addField('Meteorologia', `${meteorologia}`, true)
+    .addField('Temperatura', `Estão ${temperatura} graus`)
+    .setTimestamp()
+    .setFooter('Bot por Afonso Santos', 'https://i.imgur.com/1LHooWF.png');
+  client.channels.get(process.env.ID_CANAL_MENSAGEM_AUTO).send(mensagemAuto);
+}
+
 // Hora e Custom Presence
 setInterval(atualizarHora, process.env.INTERVAL_UPDATE_HORA);
+setInterval(enviarMensagem, process.env.INTERVAL_ENVIO_MENSAGEM);
 
 /*
  * Embeds
@@ -56,6 +73,7 @@ const ajuda = new Discord.RichEmbed()
   .addField(`**${prefix}temp**`, 'Mostra a temperatura atual')
   .addField(`**${prefix}meteo**`, 'Mostra a meteorologia atual')
   .addField(`**${prefix}defmeteo**`, 'Define uma temperatura e meteorologia (args: <temp> <meteorologia>)')
+  .addField(`**${prefix}auto**`, 'Mostra uma mensagem com a hora, meteorologia e temperatura')
   .addField(`**${prefix}ajuda**`, 'Mostra esta mensagem')
   .setTimestamp()
   .setFooter('Bot por Afonso Santos', 'https://i.imgur.com/1LHooWF.png');
@@ -76,7 +94,7 @@ client.on('message', message => {
   } else if (message.content.startsWith(prefix + 'meteo')) {
     message.channel.send(`Meteorologia: **${meteorologia}**`);
   } else if (command == 'defmeteo') {
-    // Verifica se a mensagem tem os argumentos necessários
+    // Verifica se a mensagem tem os argumentos
     if (!args.length) {
       return message.channel.send(`Tem de especificar qual a temperatura e a meteorologia para definir ${message.author}!`);
     }
@@ -85,6 +103,8 @@ client.on('message', message => {
     message.channel.send(`Temperatura definida para **${temperatura} ºC** e **${meteorologia}** como meteorologia.`);
   } else if (message.content.startsWith(prefix + 'ajuda')) {
     message.channel.send(ajuda);
+  } else if (message.content.startsWith(prefix + 'auto')) {
+    enviarMensagem();
   } else {
     // Opção padrão
     message.channel.send(`${message.author}, esse comando não existe. **${prefix}ajuda** para uma lista de comandos`);
