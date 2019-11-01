@@ -58,7 +58,7 @@ function Clock() {
   }
 
   function tick() {
-    time += 1000;
+    time += 50;
     timeout = setTimeout(tick, time - Date.now());
     display();
     update();
