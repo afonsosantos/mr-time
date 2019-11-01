@@ -10,6 +10,7 @@
  */
 const Discord = require('discord.js');
 var moment = require('moment');
+
 moment.locale('pt');
 require('dotenv').config();
 
@@ -34,6 +35,9 @@ client.on('ready', () => {
  * Funções periódicas
  */
 
+// Código para o relógio personalizado
+// https://stackoverflow.com/a/14431819
+
 function atualizarHora() {
   hora = moment()
     .subtract(process.env.DIF_HORAS, 'hour')
@@ -53,7 +57,9 @@ function enviarMensagem() {
     .addField('Temperatura', `Estão ${temperatura} graus`)
     .setTimestamp()
     .setFooter('Bot por Afonso Santos', 'https://i.imgur.com/1LHooWF.png');
+
   client.channels.get(process.env.ID_CANAL_MENSAGEM_AUTO).send(mensagemAuto);
+  console.log('Mensagem automática enviada!');
 }
 
 // Hora e Custom Presence
