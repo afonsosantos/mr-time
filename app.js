@@ -119,7 +119,7 @@ function enviarMensagem() {
 }
 
 // Hora e Custom Presence
-setInterval(atualizarHora, 1000);
+setInterval(atualizarHora, process.env.INTERVAL_UPDATE_HORA);
 setInterval(enviarMensagem, process.env.INTERVAL_ENVIO_MENSAGEM);
 
 /*
