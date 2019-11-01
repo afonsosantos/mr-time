@@ -27,7 +27,6 @@ const prefix = process.env.PREFIX;
 
 // Quando o bot estiver pronto
 client.on('ready', () => {
-  // Envia uma mensagem para a consola
   console.log('Bot pronto!');
 });
 
@@ -38,11 +37,68 @@ client.on('ready', () => {
 // Código para o relógio personalizado
 // https://stackoverflow.com/a/14431819
 
+function Clock() {
+  var clock = this;
+  var timeout;
+  var time;
+
+  this.hours = 0;
+  this.minutes = 0;
+  this.seconds = 0;
+  this.stop = stop;
+  this.start = start;
+
+  function stop() {
+    clearTimeout(timeout);
+  }
+
+  function start() {
+    timeout = setTimeout(tick, 0);
+    time = Date.now();
+  }
+
+  function tick() {
+    time += 1000;
+    timeout = setTimeout(tick, time - Date.now());
+    display();
+    update();
+  }
+
+  function display() {
+    var hours = clock.hours;
+    var minutes = clock.minutes;
+    var seconds = clock.seconds;
+
+    hours = hours < 10 ? '0' + hours : '' + hours;
+    minutes = minutes < 10 ? '0' + minutes : '' + minutes;
+    seconds = seconds < 10 ? '0' + seconds : '' + seconds;
+  }
+
+  function update() {
+    var seconds = (clock.seconds += 4);
+
+    if (seconds === 60) {
+      clock.seconds = 0;
+      var minutes = ++clock.minutes;
+
+      if (minutes === 60) {
+        clock.minutes = 0;
+        var hours = ++clock.hours;
+
+        if (hours === 24) clock.hours = 0;
+      }
+    }
+  }
+}
+
+var relogio = new Clock();
+relogio.start();
+
 function atualizarHora() {
-  hora = moment()
-    .subtract(process.env.DIF_HORAS, 'hour')
-    .format('LT');
-  client.user.setActivity(`Hora: ${hora}`);
+  // hora = moment()
+  //   .subtract(process.env.DIF_HORAS, 'hour')
+  //   .format('LT');
+  client.user.setActivity(`Hora: ${relogio.hours}:${relogio.minutes}`);
   // console.log(hora);
 }
 
@@ -63,7 +119,7 @@ function enviarMensagem() {
 }
 
 // Hora e Custom Presence
-setInterval(atualizarHora, process.env.INTERVAL_UPDATE_HORA);
+setInterval(atualizarHora, 1000);
 setInterval(enviarMensagem, process.env.INTERVAL_ENVIO_MENSAGEM);
 
 /*
