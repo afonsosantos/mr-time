@@ -37,66 +37,66 @@ client.on('ready', () => {
 // Código para o relógio personalizado
 // https://stackoverflow.com/a/14431819
 
-function Clock() {
-  var clock = this;
-  var timeout;
-  var time;
+// function Clock() {
+//   var clock = this;
+//   var timeout;
+//   var time;
 
-  this.hours = 0;
-  this.minutes = 0;
-  this.seconds = 0;
-  this.stop = stop;
-  this.start = start;
+//   this.hours = 0;
+//   this.minutes = 0;
+//   this.seconds = 0;
+//   this.stop = stop;
+//   this.start = start;
 
-  function stop() {
-    clearTimeout(timeout);
-  }
+//   function stop() {
+//     clearTimeout(timeout);
+//   }
 
-  function start() {
-    timeout = setTimeout(tick, 0);
-    time = Date.now();
-  }
+//   function start() {
+//     timeout = setTimeout(tick, 0);
+//     time = Date.now();
+//   }
 
-  function tick() {
-    time += 25;
-    timeout = setTimeout(tick, time - Date.now());
-    display();
-    update();
-  }
+//   function tick() {
+//     time += 25;
+//     timeout = setTimeout(tick, time - Date.now());
+//     display();
+//     update();
+//   }
 
-  function display() {
-    var hours = clock.hours;
-    var minutes = clock.minutes;
+//   function display() {
+//     var hours = clock.hours;
+//     var minutes = clock.minutes;
 
-    hours = hours < 10 ? '00' + hours : '' + hours;
-    minutes = minutes < 10 ? '00' + minutes : '' + minutes;
-  }
+//     hours = hours < 10 ? '00' + hours : '' + hours;
+//     minutes = minutes < 10 ? '00' + minutes : '' + minutes;
+//   }
 
-  function update() {
-    var seconds = (clock.seconds += 4);
+//   function update() {
+//     var seconds = (clock.seconds += 4);
 
-    if (seconds === 60) {
-      clock.seconds = 0;
-      var minutes = ++clock.minutes;
+//     if (seconds === 60) {
+//       clock.seconds = 0;
+//       var minutes = ++clock.minutes;
 
-      if (minutes === 60) {
-        clock.minutes = 0;
-        var hours = ++clock.hours;
+//       if (minutes === 60) {
+//         clock.minutes = 0;
+//         var hours = ++clock.hours;
 
-        if (hours === 24) clock.hours = 0;
-      }
-    }
-  }
-}
+//         if (hours === 24) clock.hours = 0;
+//       }
+//     }
+//   }
+// }
 
-var relogio = new Clock();
-relogio.start();
+// var relogio = new Clock();
+// relogio.start();
 
 function atualizarHora() {
-  // hora = moment()
-  //   .subtract(process.env.DIF_HORAS, 'hour')
-  //   .format('LT');
-  client.user.setActivity(`Hora: ${relogio.hours}:${relogio.minutes}`);
+  hora = moment()
+    .subtract(process.env.DIF_HORAS, 'hour')
+    .format('LT');
+  client.user.setActivity(`Hora: ${hora}`);
   // console.log(hora);
 }
 
