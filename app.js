@@ -16,7 +16,7 @@ require('dotenv').config();
 
 // Variáveis
 var hora,
-  temperatura = 0,
+  temperatura = 10,
   meteorologia = 'Vento Gelado';
 
 /*
