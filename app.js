@@ -17,7 +17,7 @@ require('dotenv').config();
 // Variáveis
 var hora,
   temperatura = 0,
-  meteorologia;
+  meteorologia = 'Vento Gelado';
 
 /*
  * Initialização de objetos e variáveis
@@ -58,7 +58,7 @@ function Clock() {
   }
 
   function tick() {
-    time += 50;
+    time += 25;
     timeout = setTimeout(tick, time - Date.now());
     display();
     update();
@@ -67,11 +67,9 @@ function Clock() {
   function display() {
     var hours = clock.hours;
     var minutes = clock.minutes;
-    var seconds = clock.seconds;
 
-    hours = hours < 10 ? '0' + hours : '' + hours;
-    minutes = minutes < 10 ? '0' + minutes : '' + minutes;
-    seconds = seconds < 10 ? '0' + seconds : '' + seconds;
+    hours = hours < 10 ? '00' + hours : '' + hours;
+    minutes = minutes < 10 ? '00' + minutes : '' + minutes;
   }
 
   function update() {
