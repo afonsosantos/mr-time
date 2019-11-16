@@ -17,7 +17,10 @@ require('dotenv').config();
 // Variáveis
 var hora,
   temperatura = 10,
-  meteorologia = 'Vento Gelado';
+  meteorologia = 'Vento Gelado',
+  mensagem = '',
+  recompensa = '',
+  quest = [];
 
 /*
  * Initialização de objetos e variáveis
@@ -31,75 +34,29 @@ client.on('ready', () => {
 });
 
 /*
- * Funções periódicas
+ * Funções personalizadas
  */
 
-// Código para o relógio personalizado
-// https://stackoverflow.com/a/14431819
-
-// function Clock() {
-//   var clock = this;
-//   var timeout;
-//   var time;
-
-//   this.hours = 0;
-//   this.minutes = 0;
-//   this.seconds = 0;
-//   this.stop = stop;
-//   this.start = start;
-
-//   function stop() {
-//     clearTimeout(timeout);
-//   }
-
-//   function start() {
-//     timeout = setTimeout(tick, 0);
-//     time = Date.now();
-//   }
-
-//   function tick() {
-//     time += 25;
-//     timeout = setTimeout(tick, time - Date.now());
-//     display();
-//     update();
-//   }
-
-//   function display() {
-//     var hours = clock.hours;
-//     var minutes = clock.minutes;
-
-//     hours = hours < 10 ? '00' + hours : '' + hours;
-//     minutes = minutes < 10 ? '00' + minutes : '' + minutes;
-//   }
-
-//   function update() {
-//     var seconds = (clock.seconds += 4);
-
-//     if (seconds === 60) {
-//       clock.seconds = 0;
-//       var minutes = ++clock.minutes;
-
-//       if (minutes === 60) {
-//         clock.minutes = 0;
-//         var hours = ++clock.hours;
-
-//         if (hours === 24) clock.hours = 0;
-//       }
-//     }
-//   }
-// }
-
-// var relogio = new Clock();
-// relogio.start();
-
+// Atualização da hora
 function atualizarHora() {
   hora = moment()
     .subtract(process.env.DIF_HORAS, 'hour')
     .format('LT');
+
+  // Mensagem das quests auto
+  if (hora == '11:00') {
+    enviarMensagemQuestsAbertas();
+  } else if (hora == '17:00') {
+    client.channels.get(process.env.ID_CANAL_MENSAGEM_AUTO_QUESTS).send(`${prefix}clear`);
+  } else if (hora == '17:01') {
+    enviarMensagemQuestsFechadas();
+  }
+
   client.user.setActivity(`Hora: ${hora}`);
   // console.log(hora);
 }
 
+// Mensagem periódica
 function enviarMensagem() {
   const mensagemAuto = new Discord.RichEmbed()
     .setColor('#77185e')
@@ -116,7 +73,40 @@ function enviarMensagem() {
   console.log('Mensagem automática enviada!');
 }
 
-// Hora e Custom Presence
+// Mensagem das quests abertas
+function enviarMensagemQuestsAbertas() {
+  const mensagemAuto = new Discord.RichEmbed()
+    .setColor('#77185e')
+    .setTitle('Quests Abertas')
+    .setAuthor('Mr. Time', 'https://i.imgur.com/2r3EbTF.png', 'https://github.com/afonsosantos')
+    .setThumbnail('https://i.imgur.com/3ZDiLHR.png')
+    .addBlankField()
+    .addField('Descrição', mensagem, true)
+    .addField('Recompensa', recompensa, true)
+    .setTimestamp()
+    .setFooter('Bot por Afonso Santos', 'https://i.imgur.com/1LHooWF.png');
+
+  client.channels.get(process.env.ID_CANAL_MENSAGEM_AUTO_QUESTS).send(mensagemAuto);
+  console.log(`Mensagem automática das quests enviada! (estado: abertas)`);
+}
+
+// Mensagem das quests fechadas
+function enviarMensagemQuestsFechadas() {
+  const mensagemAuto = new Discord.RichEmbed()
+    .setColor('#77185e')
+    .setTitle('Quests Fechadas')
+    .setAuthor('Mr. Time', 'https://i.imgur.com/2r3EbTF.png', 'https://github.com/afonsosantos')
+    .setThumbnail('https://i.imgur.com/3ZDiLHR.png')
+    .addBlankField()
+    .addField('As quests fecharam!', 'Obrigado pela participação')
+    .setTimestamp()
+    .setFooter('Bot por Afonso Santos', 'https://i.imgur.com/1LHooWF.png');
+
+  client.channels.get(process.env.ID_CANAL_MENSAGEM_AUTO_QUESTS).send(mensagemAuto);
+  console.log(`Mensagem automática das quests enviada! (estado: fechadas)`);
+}
+
+// Custom Presence e mensagem da hora
 setInterval(atualizarHora, process.env.INTERVAL_UPDATE_HORA);
 setInterval(enviarMensagem, process.env.INTERVAL_ENVIO_MENSAGEM);
 
@@ -142,9 +132,9 @@ const ajuda = new Discord.RichEmbed()
  * Lista de Comandos
  */
 client.on('message', message => {
-  // Exit and stop if it's not there
+  // Validation
   if (!message.content.startsWith(prefix) || message.author.bot) return;
-  const args = message.content.slice(prefix.length).split(' ');
+  const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
   if (message.content.startsWith(prefix + 'hora')) {
@@ -165,6 +155,27 @@ client.on('message', message => {
     message.channel.send(ajuda);
   } else if (message.content.startsWith(prefix + 'auto')) {
     enviarMensagem();
+  } else if (message.content.startsWith(prefix + 'abertas')) {
+    enviarMensagemQuestsAbertas();
+  } else if (message.content.startsWith(prefix + 'fechadas')) {
+    enviarMensagemQuestsFechadas();
+  } else if (message.content.startsWith(prefix + 'addquest')) {
+    // Descrição da quest
+    var quest = [];
+    message.channel.send('Insira o nome e a recompensa para a quest, em separado.');
+    const filter = m => m.content.includes('discord');
+    const collector = message.channel.createMessageCollector(filter, { time: 5000 });
+
+    collector.on('collect', m => {
+      mensagem = m.content;
+      if (mensagem.length > 0) {
+        message.channel.send('Enviou uma mensagem!');
+      }
+    });
+
+    collector.on('end', collected => {
+      console.log(collected);
+    });
   } else {
     // Opção padrão
     message.channel.send(`${message.author}, esse comando não existe. **${prefix}ajuda** para uma lista de comandos`);
