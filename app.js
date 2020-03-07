@@ -16,8 +16,8 @@ require('dotenv').config();
 
 // Variáveis
 var hora,
-  temperatura = 10,
-  meteorologia = 'Vento Gelado',
+  temperatura = 21,
+  meteorologia = 'Dia Ensolarado',
   mensagem = '',
   recompensa = '',
   quest = [];
